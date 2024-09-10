@@ -1,12 +1,27 @@
 import { lazy } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { RootRoute } from "@/routes/Root";
+
+const UserList = lazy(() => import("@/routes/users/UserList"));
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootRoute />,
-    children: [],
+    children: [
+      {
+        index: true,
+        element: <Navigate to={"users"} />,
+      },
+      {
+        path: "users",
+        element: <UserList />,
+      },
+    ],
   },
 ]);
 

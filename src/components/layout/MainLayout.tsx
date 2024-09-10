@@ -1,12 +1,21 @@
-import { AppShell } from "@mantine/core";
+import { AppShell, Container } from "@mantine/core";
 import { PropsWithChildren } from "react";
 
 export const MainLayout = ({ children }: PropsWithChildren) => (
-  <AppShell>
+  <AppShell
+    header={{
+      height: 60,
+    }}
+    footer={{
+      height: 60,
+    }}
+  >
     <AppShell.Header>
       <p>Header</p>
     </AppShell.Header>
-    <AppShell.Main>{children}</AppShell.Main>
+    <AppShell.Main>
+      <Container>{children}</Container>
+    </AppShell.Main>
     <AppShell.Footer>
       <p>Footer</p>
     </AppShell.Footer>
