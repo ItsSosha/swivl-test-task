@@ -16,5 +16,22 @@ const authLink = setContext((_, { headers }) => {
 
 export const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          search: {
+            keyArgs: false,
+            merge(existing, incoming) {
+              const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
+              return {
+                ...incoming,
+                nodes,
+              };
+            },
+          },
+        },
+      },
+    },
+  }),
 });

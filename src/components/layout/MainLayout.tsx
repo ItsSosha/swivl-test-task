@@ -14,7 +14,7 @@ export const MainLayout = ({ children }: PropsWithChildren) => (
       <p>Header</p>
     </AppShell.Header>
     <AppShell.Main>
-      <Container>{children}</Container>
+      <Container size="lg">{children}</Container>
     </AppShell.Main>
     <AppShell.Footer>
       <p>Footer</p>
