@@ -4,20 +4,19 @@ import { SearchedUser } from "@/types";
 import { UserListItem } from "./UserListItem";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useSearchUsers } from "@/hooks/apollo";
-
-type UserListProps = {
-  searchName: string;
-};
+import { useSearchParams } from "react-router-dom";
+import { UserListItemSkeleton } from "./UserListItem/Skeleton";
 
 const PER_LOAD = 16;
 
-export const UserList = ({ searchName }: UserListProps) => {
+export const UserList = () => {
+  const [searchParams] = useSearchParams();
   const { users, loading, fetchMore, hasNext, endCursor } = useSearchUsers({
     variables: {
-      query: searchName,
+      query: searchParams.get("q") ?? "",
       limit: PER_LOAD,
     },
-    skip: !searchName,
+    skip: !searchParams.get("q"),
   });
 
   const [ref] = useIntersectionObserver<HTMLDivElement>({
@@ -32,13 +31,17 @@ export const UserList = ({ searchName }: UserListProps) => {
   });
 
   return (
-    <Stack mih={400} pos="relative" component="ul" pl={0}>
+    <Stack mih={400} pos="relative">
       {loading && <LoaderFallback />}
-      {users?.map((item) => {
-        const user = item as SearchedUser;
-        return <UserListItem key={user.id} user={user} />;
-      })}
-      <div ref={ref}></div>
+      <Stack component="ul" pl={0}>
+        {users?.map((item) => {
+          const user = item as SearchedUser;
+          return <UserListItem key={user.login} user={user} />;
+        })}
+      </Stack>
+      <Stack ref={ref}>
+        {hasNext && [...new Array(5)].map((_) => <UserListItemSkeleton />)}
+      </Stack>
     </Stack>
   );
 };

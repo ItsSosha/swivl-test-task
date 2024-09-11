@@ -21,7 +21,7 @@ export const apolloClient = new ApolloClient({
       Query: {
         fields: {
           search: {
-            keyArgs: false,
+            keyArgs: ["query"],
             merge(existing, incoming) {
               const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
               return {

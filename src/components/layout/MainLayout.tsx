@@ -1,23 +1,21 @@
-import { AppShell, Container } from "@mantine/core";
+import { AppShell, Container, Stack, Text } from "@mantine/core";
 import { PropsWithChildren } from "react";
 
 export const MainLayout = ({ children }: PropsWithChildren) => (
   <AppShell
     header={{
-      height: 60,
-    }}
-    footer={{
-      height: 60,
+      height: 80,
     }}
   >
     <AppShell.Header>
-      <p>Header</p>
+      <Stack justify="center" h="100%">
+        <Text ta="center" fw={800} fz={"h2"} style={{ fontStretch: "125%" }}>
+          GraphQL Github User Search App
+        </Text>
+      </Stack>
     </AppShell.Header>
     <AppShell.Main>
       <Container size="lg">{children}</Container>
     </AppShell.Main>
-    <AppShell.Footer>
-      <p>Footer</p>
-    </AppShell.Footer>
   </AppShell>
 );
