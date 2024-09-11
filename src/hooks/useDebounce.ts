@@ -5,7 +5,7 @@ export const useDebounce = <T extends (...args: any[]) => void>(
   ms: number
 ): [T, () => void] => {
   const callbackRef = useRef(callback);
-  const timerRef = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     callbackRef.current = callback;
