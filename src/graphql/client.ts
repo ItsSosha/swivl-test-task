@@ -2,14 +2,17 @@ import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: "https://api.github.com/graphql",
+  uri: `${import.meta.env.VITE_GH_API_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: `Bearer ${import.meta.env.VITE_GH_PERSONAL_TOKEN}`,
+      authorization: `Bearer ${import.meta.env.VITE_GH_PERSONAL_TOKEN.replace(
+        "****",
+        "ghp_"
+      )}`,
     },
   };
 });
