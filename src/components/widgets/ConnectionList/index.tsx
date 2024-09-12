@@ -14,23 +14,18 @@ type ConnectionListProps = {
 const PER_PAGE = 18;
 
 export const ConnectionList = ({ type, login }: ConnectionListProps) => {
-  const { connections, hasNext, last, loading, fetchMore } =
-    useGetUserConnections(type, {
+  const { connections, hasNext, loading, fetchMore } = useGetUserConnections(
+    type,
+    {
       variables: {
         login,
         limit: PER_PAGE,
       },
-    });
+    }
+  );
 
   const [ref] = useIntersectionObserver<HTMLDivElement>({
-    onChange: (isIntersecting) =>
-      hasNext &&
-      isIntersecting &&
-      fetchMore({
-        variables: {
-          after: last,
-        },
-      }),
+    onChange: (isIntersecting) => hasNext && isIntersecting && fetchMore(),
   });
 
   if (!loading && !connections?.length) {

@@ -1,11 +1,16 @@
 import { useGetUserConnectionsQuery } from "@/graphql/queries/getUserConnections.generated";
 import { UserConnections } from "@/types";
+import { useCallback } from "react";
 
 export const useGetUserConnections = (
   type: "followers" | "following",
   options: Parameters<typeof useGetUserConnectionsQuery>[0]
 ) => {
-  const { data, ...rest } = useGetUserConnectionsQuery({
+  const {
+    data,
+    fetchMore: fetchMoreConnections,
+    ...rest
+  } = useGetUserConnectionsQuery({
     ...options,
     ...(options.variables && {
       variables: {
@@ -19,13 +24,23 @@ export const useGetUserConnections = (
   const connections = data?.user?.[type]?.nodes as UserConnections;
   const total = data?.user?.[type]?.totalCount ?? 0;
   const hasNext = data?.user?.[type]?.pageInfo.hasNextPage;
-  const last = data?.user?.[type]?.pageInfo?.endCursor;
+  const after = data?.user?.[type]?.pageInfo?.endCursor;
+
+  const fetchMore = useCallback(
+    () =>
+      fetchMoreConnections({
+        variables: {
+          after,
+        },
+      }),
+    [fetchMoreConnections, after]
+  );
 
   return {
     connections,
     total,
     hasNext,
-    last,
+    fetchMore,
     ...rest,
   };
 };

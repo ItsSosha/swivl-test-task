@@ -13,7 +13,7 @@ export const ConnectionListItem = ({ connection }: ConnectionListItemProps) => (
     component={Link}
     c="inherit"
     td="none"
-    rowGap="sm"
+    rowGap="xs"
     to={`/users/${connection?.login}`}
   >
     <Avatar src={connection?.avatarUrl} />
