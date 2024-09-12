@@ -8,6 +8,7 @@ import {
   List,
   Paper,
   Stack,
+  Text,
   Title,
 } from "@mantine/core";
 import { useParams } from "react-router-dom";
@@ -86,6 +87,11 @@ const UserRoute = () => {
             <Title order={3} ta="center">
               Top repositories
             </Title>
+            {!repositories?.length && (
+              <Text fz={"h5"} ta="center">
+                No repositories found
+              </Text>
+            )}
             <List type="ordered" spacing="md" center>
               {repositories?.map((repository) =>
                 repository ? (

@@ -1,6 +1,5 @@
 import { Stack } from "@mantine/core";
 import { LoaderFallback } from "../LoaderFallback";
-import { SearchedUser } from "@/types";
 import { UserListItem } from "./UserListItem";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useSearchUsers } from "@/hooks/apollo";
