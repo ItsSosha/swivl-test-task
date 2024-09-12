@@ -1,5 +1,7 @@
+import styles from "./index.module.scss";
+
 import { useGetUserConnections } from "@/hooks/apollo";
-import { Grid, ScrollArea } from "@mantine/core";
+import { Box, Center, Text } from "@mantine/core";
 import { ConnectionListItemSkeleton } from "./ConnectionListItem/Skeleton";
 import { ConnectionListItem } from "./ConnectionListItem";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
@@ -10,7 +12,6 @@ type ConnectionListProps = {
 };
 
 const PER_PAGE = 18;
-const ConnectionListBreakpoints = { base: 6, xs: 4, md: 2 };
 
 export const ConnectionList = ({ type, login }: ConnectionListProps) => {
   const { connections, hasNext, last, loading, fetchMore } =
@@ -32,28 +33,27 @@ export const ConnectionList = ({ type, login }: ConnectionListProps) => {
       }),
   });
 
+  if (!loading && !connections?.length) {
+    return (
+      <Center p="lg">
+        <Text fz="h3">No results found</Text>
+      </Center>
+    );
+  }
+
   return (
-    <ScrollArea scrollbars="y" h={"16rem"}>
-      <Grid>
-        {connections?.map((connection) => (
-          <Grid.Col
-            span={ConnectionListBreakpoints}
-            key={`connection-${connection?.login}`}
-          >
-            <ConnectionListItem connection={connection} />
-          </Grid.Col>
+    <Box className={styles.grid}>
+      {connections?.map((connection) => (
+        <div key={`connection-${connection?.login}`}>
+          <ConnectionListItem connection={connection} />
+        </div>
+      ))}
+      {(hasNext || loading) &&
+        [...new Array(PER_PAGE / 2)].map((_, index) => (
+          <div key={index} ref={!index ? ref : undefined}>
+            <ConnectionListItemSkeleton />
+          </div>
         ))}
-        {(hasNext || loading) &&
-          [...new Array(PER_PAGE / 2)].map((_, index) => (
-            <Grid.Col
-              span={ConnectionListBreakpoints}
-              key={index}
-              ref={!index ? ref : undefined}
-            >
-              <ConnectionListItemSkeleton />
-            </Grid.Col>
-          ))}
-      </Grid>
-    </ScrollArea>
+    </Box>
   );
 };

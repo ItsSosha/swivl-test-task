@@ -6,5 +6,6 @@ import {
 export const useGetUser = (...args: Parameters<typeof useGetUserQuery>) => {
   const { data, ...rest } = useGetUserQuery(...args);
   const user = data?.user as GetUserQuery["user"];
-  return { user, ...rest };
+  const repositories = data?.user?.topRepositories.nodes;
+  return { user, repositories, ...rest };
 };

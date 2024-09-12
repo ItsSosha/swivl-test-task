@@ -1,35 +1,27 @@
 import { ConnectionList, LoaderFallback, UserBlog } from "@/components/widgets";
 import { useGetUser } from "@/hooks/apollo";
-import { UserDetails } from "@/types";
 import {
   Accordion,
+  Anchor,
   Avatar,
   Grid,
   List,
   Paper,
   Stack,
-  ThemeIcon,
   Title,
 } from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { MdEmail, MdLocationPin, MdInfo } from "react-icons/md";
-
-const aboutKeys: (keyof UserDetails)[] = ["location", "company", "email"];
-
-const getAboutIcon = (key: keyof UserDetails) => {
-  switch (key) {
-    case "email":
-      return <MdEmail size={20} />;
-    case "location":
-      return <MdLocationPin size={20} />;
-    default:
-      return <MdInfo size={20} />;
-  }
-};
+import {
+  MdEmail,
+  MdLocationPin,
+  MdCalendarMonth,
+  MdOutlineStar,
+} from "react-icons/md";
+import { IoBriefcase } from "react-icons/io5";
 
 const UserRoute = () => {
   const { login } = useParams();
-  const { user, loading } = useGetUser({
+  const { user, repositories, loading } = useGetUser({
     skip: !login,
     variables: {
       login: login!,
@@ -55,22 +47,76 @@ const UserRoute = () => {
         {!!user?.name && <Title order={3}>{user.name}</Title>}
       </Stack>
       <Grid gutter="xl">
-        <Grid.Col span={6}>
-          <Paper withBorder radius="md" component={List} p="md" shadow="md">
-            {aboutKeys.map((key) =>
-              user[key] ? (
-                <List.Item
-                  icon={
-                    <ThemeIcon color="black" size={32} radius="xl">
-                      {getAboutIcon(key)}
-                    </ThemeIcon>
-                  }
-                >{`${key}: ${user[key]}`}</List.Item>
-              ) : null
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Paper
+            withBorder
+            radius="md"
+            spacing="md"
+            p="md"
+            shadow="md"
+            component={List}
+          >
+            {!!user.location && (
+              <List.Item
+                icon={<MdLocationPin size={24} />}
+              >{`Location: ${user.location}`}</List.Item>
+            )}
+            {!!user.company && (
+              <List.Item
+                icon={<IoBriefcase size={24} />}
+              >{`Company: ${user.company}`}</List.Item>
+            )}
+            {!!user.email && (
+              <List.Item
+                icon={<MdEmail size={24} />}
+              >{`Email: ${user.email}`}</List.Item>
+            )}
+            {!!user.createdAt && (
+              <List.Item
+                icon={<MdCalendarMonth size={24} />}
+              >{`Joined: ${new Date(
+                user.createdAt
+              ).toLocaleDateString()}`}</List.Item>
             )}
           </Paper>
         </Grid.Col>
-        <Grid.Col span={6}>{/* TODO: Top repo links */}</Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Paper component={Stack} withBorder radius="md" p="md" shadow="md">
+            <Title order={3} ta="center">
+              Top repositories
+            </Title>
+            <List type="ordered" spacing="md" center>
+              {repositories?.map((repository) =>
+                repository ? (
+                  <List.Item
+                    style={{ verticalAlign: "text-top" }}
+                    icon={<MdOutlineStar size={28} color="gold" />}
+                  >
+                    <Stack gap={0}>
+                      <Title order={5}>{repository.name}</Title>
+                      {repository?.homepageUrl && (
+                        <Anchor
+                          href={repository.homepageUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Homepage
+                        </Anchor>
+                      )}
+                      <Anchor
+                        href={repository.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Link
+                      </Anchor>
+                    </Stack>
+                  </List.Item>
+                ) : null
+              )}
+            </List>
+          </Paper>
+        </Grid.Col>
       </Grid>
       {!!user.websiteUrl && <UserBlog url={user.websiteUrl} />}
       <Accordion multiple mb="xl">

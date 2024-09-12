@@ -7,10 +7,7 @@ export type SearchedUser = Extract<
   { __typename: "User" }
 >;
 
-type UserDetailBase = Omit<NonNullable<GetUserQuery["user"]>, "__typename">;
-export type UserDetails = Omit<UserDetailBase, "socialAccounts"> & {
-  socialAccounts: UserDetailBase["socialAccounts"]["nodes"];
-};
+export type UserDetails = Omit<NonNullable<GetUserQuery["user"]>, "__typename">;
 
 export type UserConnections = NonNullable<
   NonNullable<GetUserConnectionsQuery["user"]>["followers"]

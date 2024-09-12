@@ -2,7 +2,6 @@ import { loadEnv } from "vite";
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const env = loadEnv("development", process.cwd());
-console.log(`Bearer ${env.VITE_GH_PERSONAL_TOKEN}`);
 
 const config: CodegenConfig = {
   overwrite: true,
