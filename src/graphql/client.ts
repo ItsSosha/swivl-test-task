@@ -33,6 +33,16 @@ export const apolloClient = new ApolloClient({
               };
             },
           },
+          following: {
+            keyArgs: false,
+            merge: (existing, incoming) => {
+              const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
+              return {
+                ...incoming,
+                nodes,
+              };
+            },
+          },
         },
       },
       Query: {

@@ -55,6 +55,7 @@ const UserRoute = () => {
             p="md"
             shadow="md"
             component={List}
+            center
           >
             {!!user.location && (
               <List.Item
