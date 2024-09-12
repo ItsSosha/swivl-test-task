@@ -20,7 +20,7 @@ export const UserListItem = ({ user }: UserListItemProps) => {
         td="none"
         align="stretch"
         component={Link}
-        to={`users/${user.id}`}
+        to={`/users/${user.login}`}
       >
         <Avatar src={user.avatarUrl} size="xl" />
         <Stack gap={8}>

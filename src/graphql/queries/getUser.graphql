@@ -1,0 +1,20 @@
+query GetUser($login: String!) {
+  user(login: $login) {
+    avatarUrl
+    name
+    login
+    company
+    email
+    location
+    websiteUrl
+    createdAt
+    bio
+    socialAccounts(first: 5) {
+      nodes {
+        displayName
+        provider
+        url
+      }
+    }
+  }
+}

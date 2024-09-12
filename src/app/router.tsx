@@ -7,6 +7,7 @@ import {
 import { RootRoute } from "@/routes/Root";
 
 const UserList = lazy(() => import("@/routes/users/UserList"));
+const User = lazy(() => import("@/routes/users/User"));
 
 const router = createBrowserRouter(
   [
@@ -21,6 +22,10 @@ const router = createBrowserRouter(
         {
           path: "users",
           element: <UserList />,
+        },
+        {
+          path: "users/:login",
+          element: <User />,
         },
       ],
     },
