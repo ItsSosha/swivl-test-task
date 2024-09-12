@@ -21,6 +21,20 @@ export const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache({
     typePolicies: {
+      User: {
+        fields: {
+          followers: {
+            keyArgs: false,
+            merge: (existing, incoming) => {
+              const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
+              return {
+                ...incoming,
+                nodes,
+              };
+            },
+          },
+        },
+      },
       Query: {
         fields: {
           search: {

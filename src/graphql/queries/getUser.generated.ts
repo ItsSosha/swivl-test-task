@@ -8,12 +8,13 @@ export type GetUserQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', avatarUrl: any, name?: string | null, login: string, company?: string | null, email: string, location?: string | null, websiteUrl?: any | null, createdAt: any, bio?: string | null, socialAccounts: { __typename?: 'SocialAccountConnection', nodes?: Array<{ __typename?: 'SocialAccount', displayName: string, provider: Types.SocialAccountProvider, url: any } | null> | null } } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, avatarUrl: any, name?: string | null, login: string, company?: string | null, email: string, location?: string | null, websiteUrl?: any | null, createdAt: any, bio?: string | null, socialAccounts: { __typename?: 'SocialAccountConnection', nodes?: Array<{ __typename?: 'SocialAccount', displayName: string, provider: Types.SocialAccountProvider, url: any } | null> | null } } | null };
 
 
 export const GetUserDocument = gql`
     query GetUser($login: String!) {
   user(login: $login) {
+    id
     avatarUrl
     name
     login

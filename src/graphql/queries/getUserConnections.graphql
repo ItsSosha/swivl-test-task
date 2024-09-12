@@ -1,0 +1,37 @@
+query GetUserConnections(
+  $login: String!
+  $limit: Int!
+  $after: String
+  $showFollowers: Boolean = false
+  $showFollowing: Boolean = false
+) {
+  user(login: $login) {
+    id
+    followers: followers(first: $limit, after: $after)
+      @include(if: $showFollowers) {
+      nodes {
+        id
+        login
+        avatarUrl
+      }
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+    following: following(first: $limit, after: $after)
+      @include(if: $showFollowing) {
+      nodes {
+        id
+        login
+        avatarUrl
+      }
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
