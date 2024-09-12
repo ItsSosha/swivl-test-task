@@ -1,5 +1,6 @@
 import { AppShell, Container, Stack, Text } from "@mantine/core";
 import { PropsWithChildren } from "react";
+import { ScrollToTop } from "../widgets";
 
 export const MainLayout = ({ children }: PropsWithChildren) => (
   <AppShell
@@ -16,6 +17,7 @@ export const MainLayout = ({ children }: PropsWithChildren) => (
     </AppShell.Header>
     <AppShell.Main>
       <Container size="lg">{children}</Container>
+      <ScrollToTop />
     </AppShell.Main>
   </AppShell>
 );
