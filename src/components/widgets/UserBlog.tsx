@@ -29,15 +29,15 @@ export const UserBlog = ({ url }: UserBlogProps) => {
   if (error) return <div>error!!!</div>;
 
   return (
-    <Stack
-      w="100%"
-      h="calc(100vh - var(--app-shell-header-height, 0px)"
-      align="stretch"
-    >
+    <Stack w="100%" align="stretch">
       <Title order={3} ta="center">
         Blog
       </Title>
-      <Box component="iframe" src={url} flex="1 0 0" />
+      <Box
+        h="calc(100vh - var(--app-shell-header-height, 0px)"
+        component="iframe"
+        src={url}
+      />
     </Stack>
   );
 };

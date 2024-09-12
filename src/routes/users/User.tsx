@@ -1,4 +1,4 @@
-import { LoaderFallback, UserBlog } from "@/components/widgets";
+import { ConnectionList, LoaderFallback, UserBlog } from "@/components/widgets";
 import { useGetUser } from "@/hooks/apollo";
 import { UserDetails } from "@/types";
 import {
@@ -73,17 +73,17 @@ const UserRoute = () => {
         <Grid.Col span={6}>{/* TODO: Top repo links */}</Grid.Col>
       </Grid>
       {!!user.websiteUrl && <UserBlog url={user.websiteUrl} />}
-      <Accordion multiple>
+      <Accordion multiple mb="xl">
         <Accordion.Item key={"followers"} value={"followers"}>
           <Accordion.Control>Followers</Accordion.Control>
           <Accordion.Panel>
-            {/* TODO: Followers and Following lists */}
+            <ConnectionList type="followers" login={login!} />
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item key={"following"} value={"following"}>
           <Accordion.Control>Following</Accordion.Control>
           <Accordion.Panel>
-            {/* TODO: Followers and Following lists */}
+            <ConnectionList type="following" login={login!} />
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
