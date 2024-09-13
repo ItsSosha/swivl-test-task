@@ -1,4 +1,3 @@
-# Try to write your query here
 query SearchUsers($query: String!, $limit: Int!, $after: String) {
   search(type: USER, query: $query, first: $limit, after: $after) {
     nodes {
@@ -16,7 +15,6 @@ query SearchUsers($query: String!, $limit: Int!, $after: String) {
         avatarUrl
       }
     }
-
     pageInfo {
       endCursor
       hasNextPage

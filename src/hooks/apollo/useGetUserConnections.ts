@@ -19,6 +19,7 @@ export const useGetUserConnections = (
         showFollowing: type === "following",
       },
     }),
+    errorPolicy: "ignore",
   });
 
   const connections = data?.user?.[type]?.nodes as UserConnections;

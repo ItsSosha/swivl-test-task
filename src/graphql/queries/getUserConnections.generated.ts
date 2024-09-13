@@ -12,13 +12,13 @@ export type GetUserConnectionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetUserConnectionsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, followers?: { __typename?: 'FollowerConnection', totalCount: number, nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any } | null> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } }, following?: { __typename?: 'FollowingConnection', totalCount: number, nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any } | null> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } } | null };
+export type GetUserConnectionsQuery = { __typename?: 'Query', user?: { __typename?: 'User', login: string, followers?: { __typename?: 'FollowerConnection', totalCount: number, nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any } | null> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } }, following?: { __typename?: 'FollowingConnection', totalCount: number, nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any } | null> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } } | null };
 
 
 export const GetUserConnectionsDocument = gql`
     query GetUserConnections($login: String!, $limit: Int!, $after: String, $showFollowers: Boolean = false, $showFollowing: Boolean = false) {
   user(login: $login) {
-    id
+    login
     followers: followers(first: $limit, after: $after) @include(if: $showFollowers) {
       nodes {
         id

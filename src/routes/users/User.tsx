@@ -1,5 +1,5 @@
 import { ConnectionList, LoaderFallback, UserBlog } from "@/components/widgets";
-import { useGetUser } from "@/hooks/apollo";
+import { isOrganization, isUser, useGetUser } from "@/hooks/apollo";
 import {
   Accordion,
   ActionIcon,
@@ -38,6 +38,9 @@ const UserRoute = () => {
     return <LoaderFallback />;
   }
 
+  const bio =
+    (isUser(user) && user.bio) || (isOrganization(user) && user.description);
+
   return (
     <Stack align="stretch" gap="lg" mt={24}>
       <Flex
@@ -64,6 +67,18 @@ const UserRoute = () => {
           {user?.login}
         </Title>
         {!!user?.name && <Title order={3}>{user.name}</Title>}
+        {!!bio && (
+          <Paper
+            component={Stack}
+            style={{ alignSelf: "stretch" }}
+            withBorder
+            radius="md"
+            p="md"
+            shadow="md"
+          >
+            <Text>{bio}</Text>
+          </Paper>
+        )}
       </Stack>
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -81,7 +96,7 @@ const UserRoute = () => {
                 "translation:user:location"
               )}: ${user.location}`}</List.Item>
             )}
-            {!!user.company && (
+            {isUser(user) && !!user.company && (
               <List.Item icon={<IoBriefcase size={24} />}>{`${t(
                 "translation:user:company"
               )}: ${user.company}`}</List.Item>

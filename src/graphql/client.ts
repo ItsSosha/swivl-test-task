@@ -30,6 +30,7 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       User: {
+        keyFields: ["login"],
         fields: {
           followers: {
             keyArgs: false,
@@ -40,6 +41,9 @@ export const apolloClient = new ApolloClient({
             merge: mergeArrayField,
           },
         },
+      },
+      Organization: {
+        keyFields: ["login"],
       },
       Query: {
         fields: {

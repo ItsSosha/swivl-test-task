@@ -3,38 +3,61 @@ import * as Types from '../types.generated';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
+export type RepositoryFieldsFragment = { __typename: 'Repository', id: string, homepageUrl?: any | null, name: string, url: any };
+
 export type GetUserQueryVariables = Types.Exact<{
   login: Types.Scalars['String']['input'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, avatarUrl: any, name?: string | null, login: string, company?: string | null, email: string, location?: string | null, websiteUrl?: any | null, createdAt: any, bio?: string | null, topRepositories: { __typename?: 'RepositoryConnection', nodes?: Array<{ __typename?: 'Repository', id: string, homepageUrl?: any | null, name: string, url: any } | null> | null } } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, location?: string | null, login: string, name?: string | null, websiteUrl?: any | null, avatarUrl: any, company?: string | null, createdAt: any, bio?: string | null, topRepositories: { __typename?: 'RepositoryConnection', nodes?: Array<{ __typename: 'Repository', id: string, homepageUrl?: any | null, name: string, url: any } | null> | null } } | null, organization?: { __typename?: 'Organization', id: string, email?: string | null, location?: string | null, login: string, name?: string | null, websiteUrl?: any | null, description?: string | null, avatarUrl: any, createdAt: any, repositories: { __typename?: 'RepositoryConnection', nodes?: Array<{ __typename: 'Repository', id: string, homepageUrl?: any | null, name: string, url: any } | null> | null } } | null };
 
-
+export const RepositoryFieldsFragmentDoc = gql`
+    fragment RepositoryFields on Repository {
+  __typename
+  id
+  homepageUrl
+  name
+  url
+}
+    `;
 export const GetUserDocument = gql`
     query GetUser($login: String!) {
   user(login: $login) {
     id
-    avatarUrl
-    name
-    login
-    company
     email
     location
+    login
+    name
     websiteUrl
+    avatarUrl
+    company
     createdAt
     bio
     topRepositories(first: 5, orderBy: {field: CREATED_AT, direction: DESC}) {
       nodes {
-        id
-        homepageUrl
-        name
-        url
+        ...RepositoryFields
+      }
+    }
+  }
+  organization(login: $login) {
+    id
+    email
+    location
+    login
+    name
+    websiteUrl
+    description
+    avatarUrl
+    createdAt
+    repositories(first: 5, orderBy: {field: CREATED_AT, direction: DESC}) {
+      nodes {
+        ...RepositoryFields
       }
     }
   }
 }
-    `;
+    ${RepositoryFieldsFragmentDoc}`;
 
 /**
  * __useGetUserQuery__

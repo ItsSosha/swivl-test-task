@@ -1,21 +1,42 @@
+fragment RepositoryFields on Repository {
+  __typename
+  id
+  homepageUrl
+  name
+  url
+}
+
 query GetUser($login: String!) {
   user(login: $login) {
     id
-    avatarUrl
-    name
-    login
-    company
     email
     location
+    login
+    name
     websiteUrl
+    avatarUrl
+    company
     createdAt
     bio
     topRepositories(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
       nodes {
-        id
-        homepageUrl
-        name
-        url
+        ...RepositoryFields
+      }
+    }
+  }
+  organization(login: $login) {
+    id
+    email
+    location
+    login
+    name
+    websiteUrl
+    description
+    avatarUrl
+    createdAt
+    repositories(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
+      nodes {
+        ...RepositoryFields
       }
     }
   }

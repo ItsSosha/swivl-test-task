@@ -6,7 +6,7 @@ query GetUserConnections(
   $showFollowing: Boolean = false
 ) {
   user(login: $login) {
-    id
+    login
     followers: followers(first: $limit, after: $after)
       @include(if: $showFollowers) {
       nodes {
