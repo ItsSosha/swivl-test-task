@@ -43,13 +43,13 @@ export const UserList = () => {
       {loading && <LoaderFallback />}
       <Stack component="ul" pl={0}>
         {users?.map((user) => (
-          <UserListItem key={user.login} user={user} />
+          <UserListItem key={`user-${user.login}`} user={user} />
         ))}
       </Stack>
       <Stack ref={ref}>
         {hasNext &&
-          [...new Array(matches ? SKELETONS : SKELETONS_XS)].map((_) => (
-            <UserListItemSkeleton />
+          [...new Array(matches ? SKELETONS : SKELETONS_XS)].map((_, index) => (
+            <UserListItemSkeleton key={index} />
           ))}
       </Stack>
     </Stack>

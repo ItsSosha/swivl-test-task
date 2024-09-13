@@ -6,6 +6,8 @@ import { ConnectionListItemSkeleton } from "./ConnectionListItem/Skeleton";
 import { ConnectionListItem } from "./ConnectionListItem";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@mantine/hooks";
+import { MEDIA_XS } from "@/utils/constants";
 
 type ConnectionListProps = {
   login: string;
@@ -13,8 +15,11 @@ type ConnectionListProps = {
 };
 
 const PER_PAGE = 18;
+const SKELETONS = 9;
+const SKELETONS_XS = 6;
 
 export const ConnectionList = ({ type, login }: ConnectionListProps) => {
+  const matches = useMediaQuery(MEDIA_XS);
   const { connections, hasNext, loading, fetchMore } = useGetUserConnections(
     type,
     {
@@ -41,15 +46,14 @@ export const ConnectionList = ({ type, login }: ConnectionListProps) => {
   return (
     <Box className={styles.grid}>
       {connections?.map((connection) => (
-        <div key={`connection-${connection?.login}`}>
-          <ConnectionListItem connection={connection} />
-        </div>
+        <ConnectionListItem
+          connection={connection}
+          key={`connection-${connection?.login}`}
+        />
       ))}
       {(hasNext || loading) &&
-        [...new Array(PER_PAGE / 2)].map((_, index) => (
-          <div key={index} ref={!index ? ref : undefined}>
-            <ConnectionListItemSkeleton />
-          </div>
+        [...new Array(matches ? SKELETONS : SKELETONS_XS)].map((_, index) => (
+          <ConnectionListItemSkeleton key={index} ref={ref} />
         ))}
     </Box>
   );

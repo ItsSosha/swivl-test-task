@@ -2,8 +2,10 @@ import { ConnectionList, LoaderFallback, UserBlog } from "@/components/widgets";
 import { useGetUser } from "@/hooks/apollo";
 import {
   Accordion,
+  ActionIcon,
   Anchor,
   Avatar,
+  Flex,
   Grid,
   List,
   Paper,
@@ -11,7 +13,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   MdEmail,
   MdLocationPin,
@@ -20,6 +22,7 @@ import {
 } from "react-icons/md";
 import { IoBriefcase } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { IoMdArrowBack } from "react-icons/io";
 
 const UserRoute = () => {
   const { login } = useParams();
@@ -37,6 +40,19 @@ const UserRoute = () => {
 
   return (
     <Stack align="stretch" gap="lg" mt={24}>
+      <Flex
+        component={Link}
+        columnGap="md"
+        align="center"
+        to="/users"
+        c="inherit"
+        td="none"
+      >
+        <ActionIcon color="black" size="lg" radius="lg">
+          <IoMdArrowBack size={32} />
+        </ActionIcon>
+        <Text fw="bold"> {t("translation:backToSearch")}</Text>
+      </Flex>
       <Stack align="center">
         <Avatar
           src={user?.avatarUrl}
@@ -98,6 +114,7 @@ const UserRoute = () => {
                   <List.Item
                     style={{ verticalAlign: "text-top" }}
                     icon={<MdOutlineStar size={28} color="gold" />}
+                    key={repository.id}
                   >
                     <Stack gap={0}>
                       <Title order={5}>{repository.name}</Title>

@@ -8,7 +8,7 @@ export type GetUserQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, avatarUrl: any, name?: string | null, login: string, company?: string | null, email: string, location?: string | null, websiteUrl?: any | null, createdAt: any, bio?: string | null, topRepositories: { __typename?: 'RepositoryConnection', nodes?: Array<{ __typename?: 'Repository', homepageUrl?: any | null, name: string, url: any } | null> | null } } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, avatarUrl: any, name?: string | null, login: string, company?: string | null, email: string, location?: string | null, websiteUrl?: any | null, createdAt: any, bio?: string | null, topRepositories: { __typename?: 'RepositoryConnection', nodes?: Array<{ __typename?: 'Repository', id: string, homepageUrl?: any | null, name: string, url: any } | null> | null } } | null };
 
 
 export const GetUserDocument = gql`
@@ -26,6 +26,7 @@ export const GetUserDocument = gql`
     bio
     topRepositories(first: 5, orderBy: {field: CREATED_AT, direction: DESC}) {
       nodes {
+        id
         homepageUrl
         name
         url

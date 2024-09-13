@@ -12,6 +12,7 @@ query GetUser($login: String!) {
     bio
     topRepositories(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
       nodes {
+        id
         homepageUrl
         name
         url

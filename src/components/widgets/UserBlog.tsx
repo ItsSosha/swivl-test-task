@@ -1,6 +1,5 @@
 import { Anchor, Paper, Stack, Text, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { LoaderFallback } from "./LoaderFallback";
 import { Trans, useTranslation } from "react-i18next";
 
 type UserBlogProps = {
@@ -9,31 +8,35 @@ type UserBlogProps = {
 
 export const UserBlog = ({ url }: UserBlogProps) => {
   const [blogReady, setBlogReady] = useState(false);
-  const [error, setBlogError] = useState<Error | null>(null);
   const { t } = useTranslation();
 
   useEffect(() => {
     const checkBlogExistence = async () => {
       try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Could not load website: ${url}`);
+        const urlObj = new URL(url);
+        if (
+          urlObj.protocol === "http" &&
+          window.location.protocol === "https"
+        ) {
+          throw new Error();
         }
-      } catch (e: unknown) {
-        setBlogError(e as Error);
-      } finally {
-        setBlogReady(true);
+        const response = await fetch(url);
+        if (response.ok) {
+          setBlogReady(true);
+        }
+      } catch (error) {
+        console.warn(`Could not load blog: ${url}`);
       }
     };
     checkBlogExistence();
   }, [url]);
 
   return (
-    <Stack w="100%" mih={!error ? "60vh" : 0} pos="relative" align="stretch">
+    <Stack w="100%" pos="relative" align="stretch">
       <Title order={3} ta="center">
         {t("translation:user:blog")}
       </Title>
-      {error ? (
+      {!blogReady ? (
         <Paper withBorder radius="md" p="lg" shadow="md">
           <Text fz="h4" ta="center">
             <Trans
@@ -53,7 +56,7 @@ export const UserBlog = ({ url }: UserBlogProps) => {
             />
           </Text>
         </Paper>
-      ) : blogReady ? (
+      ) : (
         <Paper
           withBorder
           radius="md"
@@ -63,8 +66,6 @@ export const UserBlog = ({ url }: UserBlogProps) => {
           component="iframe"
           src={url}
         />
-      ) : (
-        <LoaderFallback />
       )}
     </Stack>
   );
