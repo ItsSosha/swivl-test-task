@@ -5,6 +5,7 @@ import { Box, Center, Text } from "@mantine/core";
 import { ConnectionListItemSkeleton } from "./ConnectionListItem/Skeleton";
 import { ConnectionListItem } from "./ConnectionListItem";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useTranslation } from "react-i18next";
 
 type ConnectionListProps = {
   login: string;
@@ -23,6 +24,7 @@ export const ConnectionList = ({ type, login }: ConnectionListProps) => {
       },
     }
   );
+  const { t } = useTranslation();
 
   const [ref] = useIntersectionObserver<HTMLDivElement>({
     onChange: (isIntersecting) => hasNext && isIntersecting && fetchMore(),
@@ -31,7 +33,7 @@ export const ConnectionList = ({ type, login }: ConnectionListProps) => {
   if (!loading && !connections?.length) {
     return (
       <Center p="lg">
-        <Text fz="h3">No results found</Text>
+        <Text fz="h3">{t("translation:user:noConnections")}</Text>
       </Center>
     );
   }

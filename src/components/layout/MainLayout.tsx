@@ -1,6 +1,7 @@
-import { AppShell, Container, Stack, Text } from "@mantine/core";
+import { AppShell, Box, Container, Group, Text } from "@mantine/core";
 import { PropsWithChildren } from "react";
-import { ScrollToTop } from "../widgets";
+import { GlobalError, LocalePicker, ScrollToTop } from "../widgets";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const MainLayout = ({ children }: PropsWithChildren) => (
   <AppShell
@@ -9,15 +10,27 @@ export const MainLayout = ({ children }: PropsWithChildren) => (
     }}
   >
     <AppShell.Header>
-      <Stack justify="center" h="100%">
-        <Text ta="center" fw={800} fz={"h2"} style={{ fontStretch: "125%" }}>
+      <Group align="center" h="100%" component={Container}>
+        <Box flex="1 0 0" />
+        <Text
+          flex="3 0 0"
+          ta="center"
+          fw={800}
+          fz={"h2"}
+          style={{ fontStretch: "125%" }}
+        >
           GraphQL Github User Search App
         </Text>
-      </Stack>
+        <Box flex="1 0 0">
+          <LocalePicker />
+        </Box>
+      </Group>
     </AppShell.Header>
     <AppShell.Main>
-      <Container size="lg">{children}</Container>
-      <ScrollToTop />
+      <ErrorBoundary FallbackComponent={GlobalError}>
+        <Container size="lg">{children}</Container>
+        <ScrollToTop />
+      </ErrorBoundary>
     </AppShell.Main>
   </AppShell>
 );

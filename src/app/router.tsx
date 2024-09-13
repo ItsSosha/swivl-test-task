@@ -5,6 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { RootRoute } from "@/routes/Root";
+import { NotFound } from "@/routes/NotFound";
 
 const UserList = lazy(() => import("@/routes/users/UserList"));
 const User = lazy(() => import("@/routes/users/User"));
@@ -26,6 +27,10 @@ const router = createBrowserRouter(
         {
           path: "users/:login",
           element: <User />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
         },
       ],
     },

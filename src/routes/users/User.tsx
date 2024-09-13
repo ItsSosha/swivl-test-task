@@ -19,9 +19,11 @@ import {
   MdOutlineStar,
 } from "react-icons/md";
 import { IoBriefcase } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
 
 const UserRoute = () => {
   const { login } = useParams();
+  const { t } = useTranslation();
   const { user, repositories, loading } = useGetUser({
     skip: !login,
     variables: {
@@ -59,37 +61,35 @@ const UserRoute = () => {
             center
           >
             {!!user.location && (
-              <List.Item
-                icon={<MdLocationPin size={24} />}
-              >{`Location: ${user.location}`}</List.Item>
+              <List.Item icon={<MdLocationPin size={24} />}>{`${t(
+                "translation:user:location"
+              )}: ${user.location}`}</List.Item>
             )}
             {!!user.company && (
-              <List.Item
-                icon={<IoBriefcase size={24} />}
-              >{`Company: ${user.company}`}</List.Item>
+              <List.Item icon={<IoBriefcase size={24} />}>{`${t(
+                "translation:user:company"
+              )}: ${user.company}`}</List.Item>
             )}
             {!!user.email && (
-              <List.Item
-                icon={<MdEmail size={24} />}
-              >{`Email: ${user.email}`}</List.Item>
+              <List.Item icon={<MdEmail size={24} />}>{`${t(
+                "translation:user:email"
+              )}: ${user.email}`}</List.Item>
             )}
             {!!user.createdAt && (
-              <List.Item
-                icon={<MdCalendarMonth size={24} />}
-              >{`Joined: ${new Date(
-                user.createdAt
-              ).toLocaleDateString()}`}</List.Item>
+              <List.Item icon={<MdCalendarMonth size={24} />}>{`${t(
+                "translation:user:createdAt"
+              )}: ${new Date(user.createdAt).toLocaleDateString()}`}</List.Item>
             )}
           </Paper>
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 }}>
           <Paper component={Stack} withBorder radius="md" p="md" shadow="md">
             <Title order={3} ta="center">
-              Top repositories
+              {t("translation:user:topRepositories")}
             </Title>
             {!repositories?.length && (
               <Text fz={"h5"} ta="center">
-                No repositories found
+                {t("translation:user:noRepositories")}
               </Text>
             )}
             <List type="ordered" spacing="md" center>
@@ -107,7 +107,7 @@ const UserRoute = () => {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Homepage
+                          {t("translation:user:homepage")}
                         </Anchor>
                       )}
                       <Anchor
@@ -115,7 +115,7 @@ const UserRoute = () => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Link
+                        {t("translation:user:link")}
                       </Anchor>
                     </Stack>
                   </List.Item>
@@ -128,13 +128,17 @@ const UserRoute = () => {
       {!!user.websiteUrl && <UserBlog url={user.websiteUrl} />}
       <Accordion multiple mb="xl">
         <Accordion.Item key={"followers"} value={"followers"}>
-          <Accordion.Control>Followers</Accordion.Control>
+          <Accordion.Control>
+            {t("translation:user:followers")}
+          </Accordion.Control>
           <Accordion.Panel>
             <ConnectionList type="followers" login={login!} />
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item key={"following"} value={"following"}>
-          <Accordion.Control>Following</Accordion.Control>
+          <Accordion.Control>
+            {t("translation:user:following")}
+          </Accordion.Control>
           <Accordion.Panel>
             <ConnectionList type="following" login={login!} />
           </Accordion.Panel>

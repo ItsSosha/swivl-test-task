@@ -6,9 +6,14 @@ import { MdOutlineSearch } from "react-icons/md";
 type SearchInputProps = {
   onSearch: (searchValue: string) => void;
   searchValue?: string;
+  placeholder?: string;
 };
 
-export const SearchInput = ({ onSearch, searchValue }: SearchInputProps) => {
+export const SearchInput = ({
+  onSearch,
+  searchValue,
+  placeholder,
+}: SearchInputProps) => {
   const [debouncedSearch, cancelSearch] = useDebounce(onSearch, 700);
   const [value, setValue] = useState(searchValue ?? "");
 
@@ -28,7 +33,7 @@ export const SearchInput = ({ onSearch, searchValue }: SearchInputProps) => {
   return (
     <Input
       size="xl"
-      placeholder="Type somethings to search..."
+      placeholder={placeholder}
       leftSection={<MdOutlineSearch size={30} />}
       value={value}
       onChange={(e) => handleSearch(e.target.value)}
