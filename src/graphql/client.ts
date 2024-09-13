@@ -17,6 +17,14 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const mergeArrayField = (existing: any, incoming: any) => {
+  const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
+  return {
+    ...incoming,
+    nodes,
+  };
+};
+
 export const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache({
@@ -25,23 +33,11 @@ export const apolloClient = new ApolloClient({
         fields: {
           followers: {
             keyArgs: false,
-            merge: (existing, incoming) => {
-              const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
-              return {
-                ...incoming,
-                nodes,
-              };
-            },
+            merge: mergeArrayField,
           },
           following: {
             keyArgs: false,
-            merge: (existing, incoming) => {
-              const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
-              return {
-                ...incoming,
-                nodes,
-              };
-            },
+            merge: mergeArrayField,
           },
         },
       },
@@ -49,13 +45,7 @@ export const apolloClient = new ApolloClient({
         fields: {
           search: {
             keyArgs: ["query"],
-            merge(existing, incoming) {
-              const nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
-              return {
-                ...incoming,
-                nodes,
-              };
-            },
+            merge: mergeArrayField,
           },
         },
       },
