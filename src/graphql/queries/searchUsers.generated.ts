@@ -10,7 +10,7 @@ export type SearchUsersQueryVariables = Types.Exact<{
 }>;
 
 
-export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename: 'App' } | { __typename: 'Discussion' } | { __typename: 'Issue' } | { __typename: 'MarketplaceListing' } | { __typename: 'Organization' } | { __typename: 'PullRequest' } | { __typename: 'Repository' } | { __typename: 'User', id: string, name?: string | null, login: string, avatarUrl: any } | null> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } };
+export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename: 'App' } | { __typename: 'Discussion' } | { __typename: 'Issue' } | { __typename: 'MarketplaceListing' } | { __typename: 'Organization', id: string, name?: string | null, login: string, avatarUrl: any } | { __typename: 'PullRequest' } | { __typename: 'Repository' } | { __typename: 'User', id: string, name?: string | null, login: string, avatarUrl: any } | null> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } };
 
 
 export const SearchUsersDocument = gql`
@@ -19,6 +19,12 @@ export const SearchUsersDocument = gql`
     nodes {
       __typename
       ... on User {
+        id
+        name
+        login
+        avatarUrl
+      }
+      ... on Organization {
         id
         name
         login

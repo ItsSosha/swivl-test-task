@@ -9,6 +9,12 @@ query SearchUsers($query: String!, $limit: Int!, $after: String) {
         login
         avatarUrl
       }
+      ... on Organization {
+        id
+        name
+        login
+        avatarUrl
+      }
     }
 
     pageInfo {
