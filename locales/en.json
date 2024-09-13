@@ -1,0 +1,23 @@
+{
+  "user": {
+    "company": "Company",
+    "location": "Location",
+    "createdAt": "Joined on",
+    "email": "Email",
+    "topRepositories": "Top repositores",
+    "noRepositories": "No repositories found",
+    "followers": "Followers",
+    "following": "Following",
+    "homepage": "Homepage",
+    "link": "Link",
+    "blog": "Blog",
+    "couldNotLoadBlog": "Could not loud blog. Click <1>here</1> to visit it",
+    "searchPlaceholder": "Type something to search users",
+    "noFound": "No users matching the provided query found",
+    "noConnections": "No users found"
+  },
+  "holdOn": "Hold on...",
+  "pageNotFound": "Page not found",
+  "backToSearch": "Back to search",
+  "somethingWentWrong": "Something went wrong..."
+}
